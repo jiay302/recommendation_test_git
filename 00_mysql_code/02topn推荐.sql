@@ -112,6 +112,12 @@ SELECT COUNT(*) FROM score_32_0;
 SELECT COUNT(*) FROM score_64_0;
 SELECT COUNT(*) FROM score_128_0;
 
+-- 统计每个用户的推荐节目数
+SELECT COUNT(*) FROM score_16_0 GROUP BY userID; -- 最少532
+SELECT COUNT(*) FROM score_32_0 GROUP BY userID; -- 最少463
+SELECT COUNT(*) FROM score_64_0 GROUP BY userID; -- 最少271
+SELECT COUNT(*) FROM score_128_0 GROUP BY userID; -- 最少47
+
 -- 为了加快后面的推荐速度，先选出每个用户的前num项
 -- 创建添加主键和userID, score聚合索引的表格保存前30项，topnum_attribute_dimension
 -- create_topk_table_attri('max_dimension','num','attribute')

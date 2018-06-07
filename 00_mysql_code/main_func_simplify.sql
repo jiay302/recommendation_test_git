@@ -20,8 +20,8 @@ BEGIN
 		SET table_name = CONCAT('topn_result_',i);
 		SET sql_create = CONCAT('CREATE TABLE ',table_name,' (
 			`topk` int(2) NOT NULL AUTO_INCREMENT,
-			`totalNum` int(2) NOT NULL,
-			`correctNum` int(2) NOT NULL,
+			`totalNum` int(2) DEFAULT NULL,
+			`correctNum` int(2) DEFAULT NULL,
 			PRIMARY KEY (`topk`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 		SELECT sql_create;
@@ -196,12 +196,12 @@ BEGIN
 /*
 作用：根据输入的参数做相应的topn推荐，并将结果插入到相应的表格
 参数：
-	k:=推荐集中包含了前k项
+	k：=推荐集中包含了前k项
 	dimension：维度（16、32、64、128）
 	num：创建的表格数
 	attribute：计算同种类型节点间相似度时考虑的节点属性
 
-用于查询的表格命名格式：top50_attribute_dimension
+用于查询的表格命名格式：topk_attribute_dimension
 保存结果的表格命名格式：topi_attribute_dimension
 */
 
@@ -217,7 +217,8 @@ BEGIN
 		IF i <10 THEN SET result_table = CONCAT('top0',i,'_',attribute,'_',dimension);
 		ELSE SET result_table = CONCAT('top',i,'_',attribute,'_',dimension);
 		END IF;
-		SET sql_text = CONCAT('INSERT INTO ',result_table,' SELECT a.* FROM ',query_table,' a WHERE (SELECT COUNT(*) FROM ',query_table,' WHERE userID=a.userID AND score > a.score)<',i,' ORDER BY a.userID,a.score DESC');
+		SET sql_text = CONCAT('INSERT INTO ',result_table,' SELECT a.* FROM ',query_table,' a WHERE (SELECT COUNT(*) FROM ',query_table,
+			' WHERE userID=a.userID AND score > a.score)<',i,' ORDER BY a.userID,a.score DESC');
 		SELECT sql_text;
 		SET @sql_text = sql_text;
 		PREPARE stmt FROM @sql_text;

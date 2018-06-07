@@ -51,8 +51,8 @@ BEGIN
 		SET table_name = CONCAT('topn_result_',i);
 		SET sql_create = CONCAT('CREATE TABLE ',table_name,' (
 	`topk` int(2) NOT NULL AUTO_INCREMENT,
-  `totalNum` int(2) NOT NULL,
-  `correctNum` int(2) NOT NULL,
+  `totalNum` int(2) DEFAULT NULL,
+  `correctNum` int(2) DEFAULT NULL,
 	PRIMARY KEY (`topk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 		SELECT sql_create;
