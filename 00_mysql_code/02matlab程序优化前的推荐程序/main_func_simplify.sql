@@ -177,7 +177,7 @@ BEGIN
 	SET result_table = CONCAT('top',num,'_',attribute,'_',dimension);
 	SET sql_text = '';
 	WHILE i <= max_userid DO
-		SET sql_text = CONCAT('INSERT INTO ',result_table,' SELECT CONCAT(userID,\'_\',itemID),userID,itemID,score FROM (SELECT * FROM ',query_table,' WHERE userID=',i,' ORDER BY score DESC) AS temp LIMIT ',num);
+		SET sql_text = CONCAT('INSERT INTO ',result_table,' SELECT CONCAT(userID,\'_\',itemID),userID,itemID,score FROM (SELECT * FROM ',query_table,' WHERE userID=',i,' ORDER BY score DESC) AS temp ORDER BY temp.score DESC LIMIT ',num);
 		SELECT sql_text;
 		SET @sql_text = sql_text;
 		PREPARE stmt FROM @sql_text;
