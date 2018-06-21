@@ -11,7 +11,6 @@ function UserItemSimilarityTopK( trainfile, vecinputfile, usernum, itemnum, dime
 %          outputfile:输出文件路径
 %          trainscore:用户与训练集中的item计算的相似度结果输出文件路径
 
-clear;% 清除变量
 tic; % 程序计时开始
 
 %% 测试数据
@@ -56,10 +55,7 @@ for i=1:usernum % 遍历所有user，计算每个user与item的相似度
     simcurrent(:, everyitems) = -2;
     simmatrix(i,:) = simcurrent;% 将计算结果存放
 end
-t = toc;% 程序计时结束
-disp([num2str(dimension-1),'维度相似度计算时间为:',num2str(t), 's']);
 
-tic % 程序计时开始
 % 将相似度大矩阵的行向量按照降序排列(sortmatrix：排好序的相似度矩阵，index：排序矩阵中的元素在原始矩阵中的下标)
 [sortmatrix, index] = sort(simmatrix, 2, 'descend');
 topK = sortmatrix(:, 1:K);
@@ -81,7 +77,7 @@ t = toc;% 程序计时结束
 disp([num2str(dimension-1),'维度相似度计算时间为:',num2str(t), 's']);
 
 % 将训练集中的得分结果写入文件
-tic % 程序计时开始
+tic;% 程序计时开始
 fp = fopen(trainscore,'w');% 将计算出的得分和相应的userID itemID写入文件中
 for i=1:usernum
     everyitems = str2double(split(trainitems(i),',',2));% 将每个字符串转换成数字数组
